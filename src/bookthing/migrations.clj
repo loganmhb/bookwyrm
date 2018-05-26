@@ -12,3 +12,14 @@
 
 #_(migratus/init config)
 
+
+#_(migratus/create config "create-authors")
+
+#_(migratus/create config "auto-update")
+#_(migratus/migrate config)
+
+#_(migratus/rollback config)
+
+(migratus/pending-list config)
+
+

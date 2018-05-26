@@ -12,7 +12,8 @@
                  [migratus "1.0.6"]
                  [buddy/buddy-hashers "1.3.0"]
                  [org.postgresql/postgresql "42.2.2"]
-                 [org.clojure/java.jdbc "0.7.6"]]
+                 [org.clojure/java.jdbc "0.7.6"]
+                 [cheshire "5.8.0"]]
   :plugins [[lein-ring "0.9.7"]]
   :ring {:handler bookthing.handler/app}
   :profiles

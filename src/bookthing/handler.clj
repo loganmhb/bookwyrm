@@ -15,7 +15,7 @@
 (defn render-page [contents]
   (-> (hiccup/html [:html
                     [:head
-                     [:title "Book Thing"]
+                     [:title "bookwyrm"]
                      [:link {:rel "stylesheet" :href "/css/main.css"}]]
                     [:body
                      [:div {:class "container"}
@@ -26,7 +26,7 @@
 (defn home [request]
   (render-page
    [:div
-    [:h1 "Bookshelf Thing"]
+    [:h1 "Bookwyrm"]
     [:p "A website for books"]
     (if-let [username (get-in request [:session :username])]
       [:div
@@ -114,4 +114,5 @@
   :stop (.stop server))
 
 #_(mount/start)
+
 #_(mount/stop)
