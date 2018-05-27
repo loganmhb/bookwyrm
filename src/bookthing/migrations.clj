@@ -15,7 +15,8 @@
 
 #_(migratus/create config "create-authors")
 
-#_(migratus/create config "auto-update")
+#_(migratus/create config "index-authors-on-ol-key")
+
 #_(migratus/migrate config)
 
 #_(migratus/rollback config)
