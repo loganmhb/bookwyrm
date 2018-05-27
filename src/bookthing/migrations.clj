@@ -15,12 +15,10 @@
 
 #_(migratus/create config "create-authors")
 
-#_(migratus/create config "index-authors-on-ol-key")
+#_(migratus/create config "create-gin-index-on-book-titles")
 
 #_(migratus/migrate config)
 
 #_(migratus/rollback config)
 
-(migratus/pending-list config)
-
-
+#_(migratus/pending-list config)

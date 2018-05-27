@@ -9,7 +9,8 @@
             [ring.adapter.jetty :as jetty]
             [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
             [ring.util.anti-forgery :refer [anti-forgery-field]]
-            [ring.util.response :as response])
+            [ring.util.response :as response]
+            [clojure.string :as string])
   (:import org.postgresql.util.PSQLException))
 
 (defn render-page [contents]
@@ -28,6 +29,10 @@
    [:div
     [:h1 "Bookwyrm"]
     [:p "A website for books"]
+    [:form {:action "/search" :method "GET"}
+     [:input {:id "query" :name "query" :type "text" :placeholder "Search for books..."}]
+     [:button "Submit"]]
+
     (if-let [username (get-in request [:session :username])]
       [:div
        [:p (format "Hello, %s!" username)]
@@ -97,6 +102,16 @@
   (-> (response/redirect "/")
       (assoc :session nil)))
 
+(defn search [request]
+  (let [q (get-in request [:params :query])
+        results (jdbc/query db/db-spec ["SELECT * FROM books WHERE title_vec @@ plainto_tsquery(?)" q])]
+    (render-page
+     [:div
+      [:h2 "Matching books"]
+      [:ol
+       (map (fn [result] [:li [:a {:href (str "/books/" (:id result))} (:title result)]])
+            results)]])))
+
 (defroutes app-routes
   (GET "/" request (home request))
   (GET "/signup" [] (signup-page))
@@ -104,6 +119,7 @@
   (GET "/login" [] (login-page))
   (POST "/login" request (login-user request))
   (POST "/logout" request (logout-user request))
+  (GET "/search" request (search request))
   (route/not-found "Not Found"))
 
 (def app
